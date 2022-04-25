@@ -1,0 +1,7 @@
+.top{
+    width: 100%;
+    height: 50px;
+    background-color: aqua;
+    position: sticky; /* always be on top off site while we are scrolling down */
+    top:0;
+}
