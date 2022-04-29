@@ -1,0 +1,5 @@
+.posts{
+    flex: 9;
+    display: flex;
+    flex-wrap: wrap; /* it means show me posts objects in same row that how many object can fit */
+}
