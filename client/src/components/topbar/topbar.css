@@ -22,7 +22,7 @@
 }
 
 .topIcon{
-    font-size: 20px;
+    font-size: 30px;
     margin-right: 10px;
     color: #4444;
     
@@ -43,7 +43,7 @@
 }
 
 .topSearchIcon{
-    font-size: 10px;
+    font-size: 30px;
     color: #666;
     cursor: pointer;
 }
