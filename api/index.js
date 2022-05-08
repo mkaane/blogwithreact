@@ -6,6 +6,7 @@ const authRoute = require("./routes/auth");
 const usersRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
+const multer = require("multer");
 
 dotenv.config();
 app.use(express.json());
@@ -15,16 +16,24 @@ mongoose
     })
     .then(console.log("connected to mongo"))
     .catch((err) => console.log(err));
+    const storage = multer.diskStorage({
+        destination:(req,file,cb) => {
+            cb(null,"images")
+        },
+        filename:(req,file,cb) => {
+            cb(null, req.body.name);
+        }
+    });
+
+const upload = multer({storage:storage});
+app.post("/api/upload", upload.single("file"),(req,res) => {
+    res.status(200).json("File has been uploaded!");
+})
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 
-//console.log("hello")
-
-app.use("/", (req, res) => {
-    console.log("This is main url") //when we do a request to localhost:5001, it will write This is main url (only localhost:5001/)
-}) //if we write app.use("/kaan")blabla  then when we go to localhost:5001/kaan, this message will show.
 app.listen("5001", ()=>{
     console.log("backend is running");
 });
