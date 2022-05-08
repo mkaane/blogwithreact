@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 //REGISTER
 router.post("/register", async(req, res) =>{
     try{
+        const usercontrol = await User.findOne({username: req.body.username});
+        //user && res.status(400).json("This username has already taken!")
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(req.body.password, salt);
         const newUser = new User({ //we can write new User(req.body), it is the same thing as below 
