@@ -1,30 +1,41 @@
 import "./singlePost.css"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useLocation } from "react-router-dom"
+import axios from "axios"
+
 
 export default function SinglePost() {
+    const location = useLocation()
+    const path = location.pathname.split("/")[2];
+    const [post, setPost] = useState({})
+
+    useEffect(() => {
+        const getPost = async () => {
+            const res = await axios.get("/posts/"+ path);
+            setPost(res.data)
+        };
+        getPost();
+    }, [path]);
   return (
     <div className="singlePost">
         <div className="singlePostWrapper">
+            {post.photo && (
             <img className="singlePostImg" 
-            src="https://images.pexels.com/photos/947384/pexels-photo-947384.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" 
+            src={post.photo}
             alt="" />
-            <h1 className="singlePostTitle">Lorem ipsum dolor sit amet
+            )}
+            <h1 className="singlePostTitle">{post.title}
             <div className="singlePostEdit">
                 <i className="singlePostIcon fa-solid fa-pen-to-square"></i>
                 <i className="singlePostIcon fa-solid fa-trash"></i>
             </div>
             </h1>
             <div className="singlePostInfo">
-                <span className="singlePostAuthor">Author: <b>Mehmet Kaan Ergül</b></span>
-                <span className="singlePostDate">1 hour ago</span>
+                <span className="singlePostAuthor">Author: <b>{post.username}</b></span>
+                <span className="singlePostDate">{new Date(post.createdAt).toDateString()}</span>
             </div>
-            <p className="singlePostDesc">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-
-            </p>
+            <p className="singlePostDesc">{post.desc}</p>
         </div>
         </div>
   )
